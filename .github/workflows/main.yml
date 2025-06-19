@@ -24,7 +24,7 @@ jobs:
       - name: Terraform Init
         id: init
         env:
-          BUCKET: ${{ BUCKET }}
-          ACCESS_KET: ${{ ACCESS_KEY }}
-          SECRET_KEY: ${{ SECRET_KEY }}
+          BUCKET: ${{ secrets.BUCKET }}
+          ACCESS_KET: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KET" -backend-config="secret_key=$SECRET_KEY"
