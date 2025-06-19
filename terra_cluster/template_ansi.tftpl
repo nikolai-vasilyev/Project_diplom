@@ -1,0 +1,21 @@
+[control]
+
+%{~ for i in control ~}
+
+${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}
+
+%{~ endfor ~}
+
+[works]
+
+%{~ for i in work-b ~}
+
+${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}
+
+%{~ endfor ~}
+
+%{~ for i in work-d ~}
+
+${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}
+
+%{~ endfor ~}
