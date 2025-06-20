@@ -12,30 +12,26 @@ permissions:
 jobs:
   check-code:
     runs-on: ubuntu-latest
-    if: secrets.BUCKET != ''
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terra_cluster
     steps:
-      - name: Use secret
-        run: echo "Using secret value"
-#    defaults:
-#      run:
-#        shell: bash
-#        working-directory: ./terra_cluster
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#        with:
-#          fetch-depth: 0
-#      - name: Setup Terraform
-#        uses: hashicorp/setup-terraform@v2
-#        with:
-#          terraform_version: ${{ secrets.TERRAFORM_VERSION }}
-#      - name: Terraform Init
-#        id: init
-#        env:
-#          BUCKET: ${{ secrets.BUCKET }}
-#          ACCESS_KET: ${{ secrets.ACCESS_KEY }}
-#          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-#        run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KET" -backend-config="secret_key=$SECRET_KEY"
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ secrets.TERRAFORM_VERSION }}
+      - name: Terraform Init
+        id: init
+        env:
+          BUCKET: ${{ secrets.BUCKET }}
+          ACCESS_KET: ${{ secrets.ACCESS_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KET" -backend-config="secret_key=$SECRET_KEY"
       # - name: Terraform Plan
       #   run: terraform plan
       #   env:
