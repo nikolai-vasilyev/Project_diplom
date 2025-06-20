@@ -34,3 +34,5 @@ jobs:
         run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KET" -backend-config="secret_key=$SECRET_KEY"
       - name: Terraform Plan
         run: terraform plan
+        env:
+          TF_VAR_cloud_id: ${{ secrets.TF_VAR_CLOUD_ID }}
