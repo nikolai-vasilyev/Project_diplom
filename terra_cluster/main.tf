@@ -23,29 +23,32 @@ resource "yandex_compute_instance" "control" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${local.ssh-keys}"
+    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
   }
   provisioner "file" {
-    content     = local.privat_ssh-key
+    content     = var.remoute_ssh_priv
     destination = "/home/ubuntu/.ssh/id_ed25519"
     connection {
       type        = "ssh"
       user        = "ubuntu"
       host        = yandex_compute_instance.control[0].network_interface.0.nat_ip_address
-      private_key = local.privat_ssh-key
+      private_key = var.remoute_ssh_priv
     }
   }
 }
 resource "null_resource" "remote-exec" {
+  # triggers = {
+  #   id = timestamp()
+  # }
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod 600 ~/.ssh/id_ed25519"
+      "sudo chmod 600 ~/.ssh/id_ed25519 && echo | tee -a /home/ubuntu/.ssh/id_ed25519"
     ]
     connection {
       type        = "ssh"
       user        = "ubuntu"
       host        = yandex_compute_instance.control[0].network_interface.0.nat_ip_address
-      private_key = local.privat_ssh-key
+      private_key = var.remoute_ssh_priv
     }
   }
 }
@@ -74,7 +77,7 @@ resource "yandex_compute_instance" "work-b" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${local.ssh-keys}"
+    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
   }
 }
 resource "yandex_compute_instance" "work-d" {
@@ -100,6 +103,6 @@ resource "yandex_compute_instance" "work-d" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${local.ssh-keys}"
+    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
   }
 }
