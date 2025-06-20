@@ -41,7 +41,7 @@ jobs:
           BUCKET: ${{ secrets.BUCKET }}
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KET" -backend-config="secret_key=$SECRET_KEY"
+        run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
       - name: Terraform Plan
         run: terraform plan
         env:
