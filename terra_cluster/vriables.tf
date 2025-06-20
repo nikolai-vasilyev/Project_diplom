@@ -73,9 +73,23 @@ variable "resource_nodes" {
     }
     work-d = {
       count         = 1
-      cores         = 3
-      memory        = 2
+      cores         = 2
+      memory        = 4
       core_fraction = 5
+    }
+  }
+}
+variable "stop_for_update" {
+  type = map(map(bool))
+  default = {
+    control = {
+      reboot = false
+    }
+    work_b = {
+      reboot = false
+    }
+    work_d = {
+      reboot = true
     }
   }
 }

@@ -1,9 +1,10 @@
 #control
 resource "yandex_compute_instance" "control" {
-  count       = var.resource_nodes.control.count
-  name        = "${local.control_name}-${count.index + 1}"
-  platform_id = var.control_platform
-  zone        = var.zones.zone1
+  count                     = var.resource_nodes.control.count
+  name                      = "${local.control_name}-${count.index + 1}"
+  platform_id               = var.control_platform
+  zone                      = var.zones.zone1
+  allow_stopping_for_update = var.stop_for_update.control
   resources {
     cores         = var.resource_nodes.control.cores
     memory        = var.resource_nodes.control.memory
@@ -55,10 +56,11 @@ resource "null_resource" "remote-exec" {
 
 #work
 resource "yandex_compute_instance" "work-b" {
-  count       = var.resource_nodes.work-b.count
-  name        = "${local.work-b_name}-${count.index + 1}"
-  platform_id = var.work_platform
-  zone        = var.zones.zone2
+  count                     = var.resource_nodes.work-b.count
+  name                      = "${local.work-b_name}-${count.index + 1}"
+  platform_id               = var.work_platform
+  zone                      = var.zones.zone2
+  allow_stopping_for_update = var.stop_for_update.work_b
   scheduling_policy {
     preemptible = var.preemptible_work
   }
@@ -81,10 +83,11 @@ resource "yandex_compute_instance" "work-b" {
   }
 }
 resource "yandex_compute_instance" "work-d" {
-  count       = var.resource_nodes.work-d.count
-  name        = "${local.work-d_name}-${count.index + 1}"
-  platform_id = var.work_platform
-  zone        = var.zones.zone3
+  count                     = var.resource_nodes.work-d.count
+  name                      = "${local.work-d_name}-${count.index + 1}"
+  platform_id               = var.work_platform
+  zone                      = var.zones.zone3
+  allow_stopping_for_update = var.stop_for_update.work_d
   scheduling_policy {
     preemptible = var.preemptible_work
   }
