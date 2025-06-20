@@ -80,17 +80,15 @@ variable "resource_nodes" {
   }
 }
 variable "stop_for_update" {
-  type = map(map(bool))
+  type = object({
+    control = bool
+    work_b = bool
+    work_d = bool
+  })
   default = {
-    control = {
-      reboot = false
-    }
-    work_b = {
-      reboot = false
-    }
-    work_d = {
-      reboot = true
-    }
+    control = false
+    work_b = false
+    work_d = true
   }
 }
 variable "vm_image" {
