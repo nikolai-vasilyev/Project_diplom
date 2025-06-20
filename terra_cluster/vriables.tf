@@ -17,17 +17,17 @@ variable "folder_id" {
 
 ##names
 locals {
-  network = "cluster"
-  z1 = "zone1"
-  z2 = "zone2"
-  z3 = "zone3"
-  zone1_name = "${local.network}-${local.z1}"
-  zone2_name = "${local.network}-${local.z2}"
-  zone3_name = "${local.network}-${local.z3}"
+  network      = "cluster"
+  z1           = "zone1"
+  z2           = "zone2"
+  z3           = "zone3"
+  zone1_name   = "${local.network}-${local.z1}"
+  zone2_name   = "${local.network}-${local.z2}"
+  zone3_name   = "${local.network}-${local.z3}"
   control_name = "${local.network}-${local.z1}-control"
-  work-b_name = "${local.network}-${local.z2}-work_b"
-  work-d_name = "${local.network}-${local.z3}-work_d"
-  ssh-keys = file("~/.ssh/id_ed25519.pub")
+  work-b_name  = "${local.network}-${local.z2}-work_b"
+  work-d_name  = "${local.network}-${local.z3}-work_d"
+  ssh-keys     = file("~/.ssh/id_ed25519.pub")
 }
 
 variable "key_name" {
@@ -47,21 +47,21 @@ variable "resource_nodes" {
   type = map(map(number))
   default = {
     control = {
-      count = 1
-      cores = 2
-      memory = 4
+      count         = 1
+      cores         = 2
+      memory        = 4
       core_fraction = 5
     }
     work-b = {
-      count = 1
-      cores = 2
-      memory = 2
+      count         = 1
+      cores         = 2
+      memory        = 2
       core_fraction = 5
     }
     work-d = {
-      count = 1
-      cores = 2
-      memory = 2
+      count         = 1
+      cores         = 2
+      memory        = 2
       core_fraction = 5
     }
   }
@@ -98,15 +98,15 @@ variable "preemptible_work" {
 
 ##network
 variable "zones" {
-  type = map
+  type = map(any)
   default = {
-      zone1 = "ru-central1-a"
-      zone2 = "ru-central1-b"
-      zone3 = "ru-central1-d"
+    zone1 = "ru-central1-a"
+    zone2 = "ru-central1-b"
+    zone3 = "ru-central1-d"
   }
 }
 variable "zones_cidr" {
-  type = map
+  type = map(any)
   default = {
     zone1 = ["192.168.10.0/24"]
     zone2 = ["192.168.20.0/24"]

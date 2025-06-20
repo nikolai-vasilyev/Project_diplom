@@ -30,12 +30,12 @@ resource "yandex_vpc_route_table" "route-table" {
   network_id = yandex_vpc_network.network.id
   static_route {
     destination_prefix = "0.0.0.0/0"
-    gateway_id = yandex_vpc_gateway.gateway.id
+    gateway_id         = yandex_vpc_gateway.gateway.id
   }
 }
 resource "yandex_vpc_gateway" "gateway" {
-  folder_id      = var.folder_id
-  name           = "cluster-gateway"
+  folder_id = var.folder_id
+  name      = "cluster-gateway"
   shared_egress_gateway {}
 }
 
