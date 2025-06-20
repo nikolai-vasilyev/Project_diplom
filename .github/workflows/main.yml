@@ -36,3 +36,5 @@ jobs:
         run: terraform plan
         env:
           TF_VAR_cloud_id: ${{ secrets.TF_VAR_CLOUD_ID }}
+          TF_VAR_token: ${{ secrets.TF_VAR_TOKEN }}
+          TF_VAR_folder_id: ${{ secrets.TF_VAR_FOLDER_ID }}
