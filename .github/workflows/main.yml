@@ -39,7 +39,7 @@ jobs:
         id: init
         env:
           BUCKET: ${{ secrets.BUCKET }}
-          ACCESS_KET: ${{ secrets.ACCESS_KEY }}
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KET" -backend-config="secret_key=$SECRET_KEY"
       - name: Terraform Plan
@@ -49,6 +49,6 @@ jobs:
           TF_VAR_token: ${{ secrets.TF_VAR_TOKEN }}
           TF_VAR_folder_id: ${{ secrets.TF_VAR_FOLDER_ID }}
           TF_VAR_remoute_ssh_pub: ${{ secrets.SSH_PUB_INSTANCE }}
-          TF_VAR_remote_ssh_priv: ${{ secrets.REMOUTE_SSH_PRIV }}
+          TF_VAR_remoute_ssh_priv: ${{ secrets.REMOUTE_SSH_PRIV }}
       - name: Terraform apply
         run: terraform apply

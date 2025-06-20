@@ -22,7 +22,7 @@ variable "remoute_ssh_pub" {
 variable "remoute_ssh_priv" {
   type        = string
   sensitive   = true
-  description = "Project_diplom/terra_account/set_env.sh"
+  description = "Project_diplom/terra_account/set_env.sh "
 }
 
 ##names
