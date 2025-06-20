@@ -23,7 +23,7 @@ resource "yandex_compute_instance" "control" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${local.ssh-keys}"
+    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
   }
   provisioner "file" {
     source      = "~/.ssh/id_ed25519"
@@ -73,7 +73,7 @@ resource "yandex_compute_instance" "work-b" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${local.ssh-keys}"
+    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
   }
 }
 resource "yandex_compute_instance" "work-d" {
@@ -99,6 +99,6 @@ resource "yandex_compute_instance" "work-d" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${local.ssh-keys}"
+    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
   }
 }

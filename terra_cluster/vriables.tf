@@ -14,6 +14,11 @@ variable "folder_id" {
   sensitive   = true
   description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
 }
+variable "remoute_ssh_pub" {
+  type        = string
+  sensitive   = true
+  description = "https://cloud.yandex.ru/docs/resource-manager/operations/folder/get-id"
+}
 
 ##names
 locals {
@@ -27,7 +32,7 @@ locals {
   control_name = "${local.network}-${local.z1}-control"
   work-b_name  = "${local.network}-${local.z2}-work_b"
   work-d_name  = "${local.network}-${local.z3}-work_d"
-  ssh-keys     = file("~/.ssh/id_ed25519.pub")
+#  ssh-keys     = file("~/.ssh/id_ed25519.pub")
 }
 
 variable "key_name" {
