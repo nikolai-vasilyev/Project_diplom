@@ -17,12 +17,12 @@ variable "folder_id" {
 variable "remoute_ssh_pub" {
   type        = string
   sensitive   = true
-  description = "For Action"
+  description = "Project_diplom/terra_account/set_env.sh"
 }
 variable "remoute_ssh_priv" {
   type        = string
   sensitive   = true
-  description = "For Action"
+  description = "Project_diplom/terra_account/set_env.sh"
 }
 
 ##names
