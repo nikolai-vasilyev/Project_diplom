@@ -38,4 +38,11 @@ resource "yandex_storage_bucket" "sb" {
     }
   }
 }
-
+resource "null_resource" "backend-name" {
+  provisioner "local-exec" {
+    command = "echo $bucket >> ../terra_cluster/secret.terraform.tfvars"
+    environment = {
+      bucket = "bucket = \"${yandex_storage_bucket.sb.bucket}\""
+    }
+  }
+}
