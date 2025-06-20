@@ -72,7 +72,7 @@ variable "resource_nodes" {
       core_fraction = 5
     }
     work-d = {
-      count         = 1
+      count         = 2
       cores         = 2
       memory        = 2
       core_fraction = 5
