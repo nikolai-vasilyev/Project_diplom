@@ -3,5 +3,5 @@ key.json
 .terraform.lock.hcl
 *.tfstate*
 *terraform.tfvars
-ansible.cfg
+hosts.cfg
 inventory.ini

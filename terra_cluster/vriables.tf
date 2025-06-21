@@ -52,7 +52,7 @@ variable "route_name" {
   description = "table name cluster"
 }
 
-##resources
+#################################resources
 variable "resource_nodes" {
   type = map(map(number))
   default = {
@@ -95,7 +95,7 @@ variable "vm_image" {
   description = "image_id"
 }
 
-###control
+#########################control
 variable "control_platform" {
   type        = string
   default     = "standard-v2"
@@ -107,7 +107,7 @@ variable "preemptible_control" {
   description = "preemptible on"
 }
 
-###work
+#########################work
 variable "work_platform" {
   type        = string
   default     = "standard-v2"
@@ -119,7 +119,7 @@ variable "preemptible_work" {
   description = "preemptible on"
 }
 
-##network
+########################network
 variable "zones" {
   type = map(any)
   default = {
