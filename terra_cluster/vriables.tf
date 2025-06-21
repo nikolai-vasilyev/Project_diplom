@@ -37,9 +37,6 @@ locals {
   control_name = "${local.network}-${local.z1}-control"
   work-b_name  = "${local.network}-${local.z2}-work_b"
   work-d_name  = "${local.network}-${local.z3}-work_d"
-  # ssh-keys     = (fileexists("~/.ssh/id_ed25519.pub") ? file("~/.ssh/id_ed25519.pub") : var.remoute_ssh_pub)
-  # privat_ssh-key = (fileexists("~/.ssh/id_ed25519") ? file("~/.ssh/id_ed25519") : var.remoute_ssh_priv)
-
 }
 
 
@@ -68,7 +65,7 @@ variable "resource_nodes" {
     work-b = {
       count         = 1
       cores         = 2
-      memory        = 2
+      memory        = 4
       core_fraction = 5
     }
     work-d = {
@@ -80,15 +77,16 @@ variable "resource_nodes" {
   }
 }
 variable "stop_for_update" {
+  description = "change if edited resource_nodes, Except count"
   type = object({
     control = bool
-    work_b = bool
-    work_d = bool
+    work_b  = bool
+    work_d  = bool
   })
   default = {
     control = false
-    work_b = false
-    work_d = true
+    work_b  = false
+    work_d  = false
   }
 }
 variable "vm_image" {

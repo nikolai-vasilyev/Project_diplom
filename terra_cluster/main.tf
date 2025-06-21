@@ -1,4 +1,4 @@
-#control
+#############################################control
 resource "yandex_compute_instance" "control" {
   count                     = var.resource_nodes.control.count
   name                      = "${local.control_name}-${count.index + 1}"
@@ -54,58 +54,58 @@ resource "null_resource" "remote-exec" {
   }
 }
 
-#work
-resource "yandex_compute_instance" "work-b" {
-  count                     = var.resource_nodes.work-b.count
-  name                      = "${local.work-b_name}-${count.index + 1}"
-  platform_id               = var.work_platform
-  zone                      = var.zones.zone2
-  allow_stopping_for_update = var.stop_for_update.work_b
-  scheduling_policy {
-    preemptible = var.preemptible_work
-  }
-  resources {
-    cores         = var.resource_nodes.work-b.cores
-    memory        = var.resource_nodes.work-b.memory
-    core_fraction = var.resource_nodes.work-b.core_fraction
-  }
-  boot_disk {
-    initialize_params {
-      image_id = var.vm_image
-    }
-  }
-  network_interface {
-    subnet_id = yandex_vpc_subnet.zone2.id
-    nat       = true
-  }
-  metadata = {
-    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
-  }
-}
-resource "yandex_compute_instance" "work-d" {
-  count                     = var.resource_nodes.work-d.count
-  name                      = "${local.work-d_name}-${count.index + 1}"
-  platform_id               = var.work_platform
-  zone                      = var.zones.zone3
-  allow_stopping_for_update = var.stop_for_update.work_d
-  scheduling_policy {
-    preemptible = var.preemptible_work
-  }
-  resources {
-    cores         = var.resource_nodes.work-d.cores
-    memory        = var.resource_nodes.work-d.memory
-    core_fraction = var.resource_nodes.work-d.core_fraction
-  }
-  boot_disk {
-    initialize_params {
-      image_id = var.vm_image
-    }
-  }
-  network_interface {
-    subnet_id = yandex_vpc_subnet.zone3.id
-    nat       = true
-  }
-  metadata = {
-    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
-  }
-}
+####################################work
+# resource "yandex_compute_instance" "work-b" {
+#   count                     = var.resource_nodes.work-b.count
+#   name                      = "${local.work-b_name}-${count.index + 1}"
+#   platform_id               = var.work_platform
+#   zone                      = var.zones.zone2
+#   allow_stopping_for_update = var.stop_for_update.work_b
+#   scheduling_policy {
+#     preemptible = var.preemptible_work
+#   }
+#   resources {
+#     cores         = var.resource_nodes.work-b.cores
+#     memory        = var.resource_nodes.work-b.memory
+#     core_fraction = var.resource_nodes.work-b.core_fraction
+#   }
+#   boot_disk {
+#     initialize_params {
+#       image_id = var.vm_image
+#     }
+#   }
+#   network_interface {
+#     subnet_id = yandex_vpc_subnet.zone2.id
+#     nat       = true
+#   }
+#   metadata = {
+#     ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
+#   }
+# }
+# resource "yandex_compute_instance" "work-d" {
+#   count                     = var.resource_nodes.work-d.count
+#   name                      = "${local.work-d_name}-${count.index + 1}"
+#   platform_id               = var.work_platform
+#   zone                      = var.zones.zone3
+#   allow_stopping_for_update = var.stop_for_update.work_d
+#   scheduling_policy {
+#     preemptible = var.preemptible_work
+#   }
+#   resources {
+#     cores         = var.resource_nodes.work-d.cores
+#     memory        = var.resource_nodes.work-d.memory
+#     core_fraction = var.resource_nodes.work-d.core_fraction
+#   }
+#   boot_disk {
+#     initialize_params {
+#       image_id = var.vm_image
+#     }
+#   }
+#   network_interface {
+#     subnet_id = yandex_vpc_subnet.zone3.id
+#     nat       = true
+#   }
+#   metadata = {
+#     ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
+#   }
+# }
