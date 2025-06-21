@@ -1,3 +1,4 @@
+###########################################Network cluster
 resource "yandex_vpc_network" "network" {
   name = local.network
 }
@@ -24,7 +25,7 @@ resource "yandex_vpc_subnet" "zone3" {
   route_table_id = yandex_vpc_route_table.route-table.id
 }
 
-#table_route
+# ########################################table_route
 resource "yandex_vpc_route_table" "route-table" {
   name       = var.route_name
   network_id = yandex_vpc_network.network.id
