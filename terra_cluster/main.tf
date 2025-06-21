@@ -16,6 +16,7 @@ resource "yandex_compute_instance" "control" {
   boot_disk {
     initialize_params {
       image_id = var.vm_image
+      size     = var.resource_nodes.control.size
     }
   }
   network_interface {
@@ -72,6 +73,7 @@ resource "yandex_compute_instance" "work-b" {
   boot_disk {
     initialize_params {
       image_id = var.vm_image
+      size     = var.resource_nodes.work-b.size
     }
   }
   network_interface {
@@ -99,6 +101,7 @@ resource "yandex_compute_instance" "work-d" {
   boot_disk {
     initialize_params {
       image_id = var.vm_image
+      size     = var.resource_nodes.work-d.size
     }
   }
   network_interface {

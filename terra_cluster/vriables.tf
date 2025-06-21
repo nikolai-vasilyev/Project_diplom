@@ -59,20 +59,23 @@ variable "resource_nodes" {
     control = {
       count         = 1
       cores         = 2
-      memory        = 4
+      memory        = 2
       core_fraction = 5
+      size          = 30
     }
     work-b = {
       count         = 1
       cores         = 2
-      memory        = 4
+      memory        = 2
       core_fraction = 5
+      size          = 50
     }
     work-d = {
       count         = 1
       cores         = 2
-      memory        = 4
+      memory        = 2
       core_fraction = 5
+      size          = 50
     }
   }
 }
@@ -84,9 +87,9 @@ variable "stop_for_update" {
     work_d  = bool
   })
   default = {
-    control = false
-    work_b  = false
-    work_d  = false
+    control = true
+    work_b  = true
+    work_d  = true
   }
 }
 variable "vm_image" {

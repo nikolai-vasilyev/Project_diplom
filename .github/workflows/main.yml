@@ -67,6 +67,7 @@ jobs:
         run: terraform init -backend-config="bucket=$BUCKET" -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
 
       - name: Terraform Plan
+        if: env.TF_RUN == 'true' && !contains(github.event.head_commit.message, 'destroy please')
         env:
           TF_VAR_cloud_id: ${{ secrets.TF_VAR_CLOUD_ID }}
           TF_VAR_token: ${{ secrets.TF_VAR_TOKEN }}
@@ -76,7 +77,7 @@ jobs:
         run: terraform plan
 
       - name: Terraform apply
-        if: env.TF_RUN == 'true' && !contains(github.event.head_commit.message, 'destroy')
+        if: env.TF_RUN == 'true' && !contains(github.event.head_commit.message, 'skip apply')
         env:
           TF_VAR_cloud_id: ${{ secrets.TF_VAR_CLOUD_ID }}
           TF_VAR_token: ${{ secrets.TF_VAR_TOKEN }}
