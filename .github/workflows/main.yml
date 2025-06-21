@@ -69,11 +69,10 @@ jobs:
           TF_VAR_folder_id: ${{ secrets.TF_VAR_FOLDER_ID }}
           TF_VAR_remoute_ssh_pub: ${{ secrets.SSH_PUB_INSTANCE }}
           TF_VAR_remoute_ssh_priv: ${{ secrets.REMOUTE_SSH_PRIV }}
-        if: env.TF_RUN == 'true' && !contains(github.event.head_commit.message, 'destroy')
         run: terraform plan
 
       - name: Terraform apply
-        if: contains(github.event.head_commit.message, 'destroy please')
+        if: env.TF_RUN == 'true' && !contains(github.event.head_commit.message, 'destroy')
         env:
           TF_VAR_cloud_id: ${{ secrets.TF_VAR_CLOUD_ID }}
           TF_VAR_token: ${{ secrets.TF_VAR_TOKEN }}
@@ -81,3 +80,11 @@ jobs:
           TF_VAR_remoute_ssh_pub: ${{ secrets.SSH_PUB_INSTANCE }}
           TF_VAR_remoute_ssh_priv: ${{ secrets.REMOUTE_SSH_PRIV }}
         run: terraform apply -auto-approve
+
+      - name: Terraform Destroy
+        if: contains(github.event.head_commit.message, 'destroy please')
+        env:
+          TF_VAR_cloud_id: ${{ secrets.TF_VAR_CLOUD_ID }}
+          TF_VAR_token: ${{ secrets.TF_VAR_TOKEN }}
+          TF_VAR_folder_id: ${{ secrets.TF_VAR_FOLDER_ID }}
+        run: terraform destroy --auto-approve
