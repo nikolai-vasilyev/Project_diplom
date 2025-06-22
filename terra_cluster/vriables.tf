@@ -35,8 +35,8 @@ locals {
   zone2_name   = "${local.network}-${local.z2}"
   zone3_name   = "${local.network}-${local.z3}"
   control_name = "${local.network}-${local.z1}-control"
-  work-b_name  = "${local.network}-${local.z2}-work_b"
-  work-d_name  = "${local.network}-${local.z3}-work_d"
+  work-b_name  = "${local.network}-${local.z2}-work-b"
+  work-d_name  = "${local.network}-${local.z3}-work-d"
 }
 
 
@@ -94,7 +94,7 @@ variable "stop_for_update" {
 }
 variable "vm_image" {
   type        = string
-  default     = "fd8o5ddn529a6s8aldav"
+  default     = "fd80j21lmqard15ciskf"
   description = "image_id"
 }
 

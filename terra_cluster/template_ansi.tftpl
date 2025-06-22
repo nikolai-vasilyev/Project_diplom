@@ -1,21 +1,46 @@
-[control]
+[all]
 
 %{~ for i in control ~}
-
-${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}
+${i["name"]} ansible_host=${i["network_interface"][0]["ip_address"]} ip=${i["network_interface"][0]["ip_address"]} ansible_user=ubuntu
 
 %{~ endfor ~}
 
-[works]
-
 %{~ for i in work-b ~}
-
-${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}
+${i["name"]} ansible_host=${i["network_interface"][0]["ip_address"]} ip=${i["network_interface"][0]["ip_address"]} ansible_user=ubuntu
 
 %{~ endfor ~}
 
 %{~ for i in work-d ~}
-
-${i["name"]}   ansible_host=${i["network_interface"][0]["ip_address"]}
+${i["name"]} ansible_host=${i["network_interface"][0]["ip_address"]} ip=${i["network_interface"][0]["ip_address"]} ansible_user=ubuntu
 
 %{~ endfor ~}
+
+[kube_control_plane]
+
+%{~ for i in control ~}
+${i["name"]}
+
+%{~ endfor ~}
+
+[etcd]
+
+%{~ for i in control ~}
+${i["name"]}
+
+%{~ endfor ~}
+
+[kube_node]
+
+%{~ for i in work-b ~}
+${i["name"]}
+
+%{~ endfor ~}
+
+%{~ for i in work-d ~}
+${i["name"]}
+
+%{~ endfor ~}
+
+[k8s_cluster:children]
+kube_control_plane
+kube_node

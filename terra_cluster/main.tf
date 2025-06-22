@@ -25,7 +25,27 @@ resource "yandex_compute_instance" "control" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
+    user-data = <<EOF
+#cloud-config
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh_authorized_keys:
+      - "${var.remoute_ssh_pub}"
+package_update: true
+package_upgrade: false
+packages:
+  - sshpass
+  - python3-pip
+  - python3.12-venv
+runcmd:
+  - python3 -m venv .venv
+  - echo 'export PATH="$PATH:/home/ubuntu/.venv/bin"' >> .bashrc
+  - mkdir .kube
+  - git clone https://github.com/kubernetes-sigs/kubespray.git
+EOF
   }
   provisioner "file" {
     content     = var.remoute_ssh_priv
@@ -42,6 +62,7 @@ resource "null_resource" "remote-exec" {
   # triggers = {
   #   id = timestamp()
   # }
+  depends_on = [ yandex_compute_instance.control ]
   provisioner "remote-exec" {
     inline = [
       "sudo chmod 600 ~/.ssh/id_ed25519 && echo | tee -a /home/ubuntu/.ssh/id_ed25519"
@@ -81,7 +102,25 @@ resource "yandex_compute_instance" "work-b" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
+    user-data = <<EOF
+#cloud-config
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh_authorized_keys:
+      - "${var.remoute_ssh_pub}"
+package_update: true
+package_upgrade: false
+packages:
+  - sshpass
+  - python3-pip
+  - python3.12-venv
+runcmd:
+  - python3 -m venv .venv
+  - echo 'export PATH="$PATH:/home/ubuntu/.venv/bin"' >> .bashrc
+EOF
   }
 }
 resource "yandex_compute_instance" "work-d" {
@@ -109,6 +148,24 @@ resource "yandex_compute_instance" "work-d" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${var.remoute_ssh_pub}"
+    user-data = <<EOF
+#cloud-config
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh_authorized_keys:
+      - "${var.remoute_ssh_pub}"
+package_update: true
+package_upgrade: false
+packages:
+  - sshpass
+  - python3-pip
+  - python3.12-venv
+runcmd:
+  - python3 -m venv .venv
+  - echo 'export PATH="$PATH:/home/ubuntu/.venv/bin"' >> .bashrc
+EOF
   }
 }
