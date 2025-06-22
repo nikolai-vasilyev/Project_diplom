@@ -3,5 +3,4 @@ key.json
 .terraform.lock.hcl
 *.tfstate*
 *terraform.tfvars
-hosts.cfg
 inventory.ini

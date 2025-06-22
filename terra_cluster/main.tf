@@ -37,6 +37,7 @@ users:
 package_update: true
 package_upgrade: false
 packages:
+  - net-tools
   - sshpass
   - python3-pip
   - python3.12-venv
@@ -45,6 +46,8 @@ runcmd:
   - echo 'export PATH="$PATH:/home/ubuntu/.venv/bin"' >> .bashrc
   - mkdir .kube
   - git clone https://github.com/kubernetes-sigs/kubespray.git
+  - source ~/.venv/bin/activate && pip install -r ~/kubespray/requirements.txt
+  - cp -rfp inventory/sample inventory/mycluster
 EOF
   }
   provisioner "file" {
