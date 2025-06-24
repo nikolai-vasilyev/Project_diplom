@@ -87,9 +87,9 @@ variable "stop_for_update" {
     work_d  = bool
   })
   default = {
-    control = true
-    work_b  = true
-    work_d  = true
+    control = false
+    work_b  = false
+    work_d  = false
   }
 }
 variable "vm_image" {

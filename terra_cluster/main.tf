@@ -47,7 +47,7 @@ runcmd:
   - mkdir .kube
   - git clone https://github.com/kubernetes-sigs/kubespray.git
   - source ~/.venv/bin/activate && pip install -r ~/kubespray/requirements.txt
-  - cp -rfp inventory/sample inventory/mycluster
+  - cp -rfp kubespray/inventory/sample kubespray/inventory/mycluster
 EOF
   }
   provisioner "file" {
