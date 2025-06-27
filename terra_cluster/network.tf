@@ -40,7 +40,7 @@ resource "yandex_vpc_gateway" "gateway" {
   shared_egress_gateway {}
 }
 
-##################################################NLB
+######################################################NLB
 resource "yandex_lb_network_load_balancer" "lb-cluster-web" {
   name       = "lb-${local.network}-web"
   depends_on = [yandex_compute_instance.control, yandex_compute_instance.work-b, yandex_compute_instance.work-d, yandex_lb_network_load_balancer.lb-cluster-monitoring]
