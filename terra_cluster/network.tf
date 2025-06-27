@@ -41,53 +41,76 @@ resource "yandex_vpc_gateway" "gateway" {
 }
 
 #NLB
-# resource "yandex_lb_network_load_balancer" "lb-cluster" {
-#   name = "lb-${local.network}"
+resource "yandex_lb_network_load_balancer" "lb-cluster-web" {
+  name = "lb-${local.network}-web"
 
-#   listener {
-#     name = "listener-web-servers"
-#     port = 80
-#     external_address_spec {
-#       ip_version = "ipv4"
-#     }
-#   }
+  listener {
+    name = "listener-web-servers"
+    port = 80
+    target_port = 30007
+    external_address_spec {
+      ip_version = "ipv4"
+    }
+  }
 
-#   attached_target_group {
-#     target_group_id = yandex_lb_target_group.cluster.id
+  attached_target_group {
+    target_group_id = yandex_lb_target_group.cluster.id
 
-#     healthcheck {
-#       name = "http"
-#       http_options {
-#         port = 80
-#         path = "/"
-#       }
-#     }
-#   }
-# }
-# resource "yandex_lb_target_group" "cluster" {
-#   name = "${local.network}-target-group"
+    healthcheck {
+      name = "test-web-app"
+      tcp_options {
+        port = 30007
+      }
+    }
+  }
+}
+resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
+  name = "lb-${local.network}-prometheus"
 
-#   dynamic "target" {
-#     for_each = yandex_compute_instance.control
-#     content {
-#       subnet_id = target.value.network_interface.0.subnet_id
-#       address   = target.value.network_interface.0.ip_address
-#     }
-#   }
+  listener {
+    name = "listener-web-servers"
+    port = 80
+    target_port = 31768
+    external_address_spec {
+      ip_version = "ipv4"
+    }
+  }
 
-#   dynamic "target" {
-#     for_each = yandex_compute_instance.work-b
-#     content {
-#       subnet_id = target.value.network_interface.0.subnet_id
-#       address   = target.value.network_interface.0.ip_address
-#     }
-#   }
+  attached_target_group {
+    target_group_id = yandex_lb_target_group.cluster.id
 
-#   dynamic "target" {
-#     for_each = yandex_compute_instance.work-d
-#     content {
-#       subnet_id = target.value.network_interface.0.subnet_id
-#       address   = target.value.network_interface.0.ip_address
-#     }
-#   }
-# }
+    healthcheck {
+      name = "prometheus"
+      tcp_options {
+        port = 31768
+      }
+    }
+  }
+}
+resource "yandex_lb_target_group" "cluster" {
+  name = "${local.network}-target-group"
+
+  dynamic "target" {
+    for_each = yandex_compute_instance.control
+    content {
+      subnet_id = target.value.network_interface.0.subnet_id
+      address   = target.value.network_interface.0.ip_address
+    }
+  }
+
+  dynamic "target" {
+    for_each = yandex_compute_instance.work-b
+    content {
+      subnet_id = target.value.network_interface.0.subnet_id
+      address   = target.value.network_interface.0.ip_address
+    }
+  }
+
+  dynamic "target" {
+    for_each = yandex_compute_instance.work-d
+    content {
+      subnet_id = target.value.network_interface.0.subnet_id
+      address   = target.value.network_interface.0.ip_address
+    }
+  }
+}

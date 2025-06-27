@@ -28,7 +28,7 @@ resource "yandex_compute_instance" "control" {
     user-data = <<EOF
 #cloud-config
 users:
-  - name: ubuntu
+  - name: alma
     groups: sudo
     shell: /bin/bash
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
@@ -36,26 +36,28 @@ users:
       - "${var.remoute_ssh_pub}"
 package_update: true
 package_upgrade: false
-packages:
-  - net-tools
-  - sshpass
-  - python3-pip
-  - python3.12-venv
-runcmd:
-  - python3 -m venv .venv
-  - echo 'export PATH="$PATH:/home/ubuntu/.venv/bin"' >> .bashrc
-  - mkdir .kube
-  - git clone https://github.com/kubernetes-sigs/kubespray.git
-  - source ~/.venv/bin/activate && pip install -r ~/kubespray/requirements.txt
-  - cp -rfp kubespray/inventory/sample kubespray/inventory/mycluster
+# packages:
+#   - git
+#   - net-tools
+#   - sshpass
+#   - python3-pip
+#   - python3-venv
+# runcmd:
+#   - sudo timedatectl set-timezone Europe/Moscow
+#   - python3 -m venv .venv
+#   - echo 'export PATH="$PATH:/home/alma/.venv/bin"' >> .bashrc
+#   - mkdir .kube
+#   - git clone https://github.com/kubernetes-sigs/kubespray.git
+#   - cp -rfp kubespray/inventory/sample kubespray/inventory/mycluster
+#   - source ~/.venv/bin/activate && pip install -r ~/kubespray/requirements.txt
 EOF
   }
   provisioner "file" {
     content     = var.remoute_ssh_priv
-    destination = "/home/ubuntu/.ssh/id_ed25519"
+    destination = "/home/alma/.ssh/id_ed25519"
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = "alma"
       host        = yandex_compute_instance.control[0].network_interface.0.nat_ip_address
       private_key = var.remoute_ssh_priv
     }
@@ -65,14 +67,14 @@ resource "null_resource" "remote-exec" {
   # triggers = {
   #   id = timestamp()
   # }
-  depends_on = [ yandex_compute_instance.control ]
+  depends_on = [yandex_compute_instance.control]
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod 600 ~/.ssh/id_ed25519 && echo | tee -a /home/ubuntu/.ssh/id_ed25519"
+      "sudo chmod 600 ~/.ssh/id_ed25519 && echo | tee -a /home/alma/.ssh/id_ed25519"
     ]
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = "alma"
       host        = yandex_compute_instance.control[0].network_interface.0.nat_ip_address
       private_key = var.remoute_ssh_priv
     }
@@ -108,7 +110,7 @@ resource "yandex_compute_instance" "work-b" {
     user-data = <<EOF
 #cloud-config
 users:
-  - name: ubuntu
+  - name: alma
     groups: sudo
     shell: /bin/bash
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
@@ -116,13 +118,13 @@ users:
       - "${var.remoute_ssh_pub}"
 package_update: true
 package_upgrade: false
-packages:
-  - sshpass
-  - python3-pip
-  - python3.12-venv
-runcmd:
-  - python3 -m venv .venv
-  - echo 'export PATH="$PATH:/home/ubuntu/.venv/bin"' >> .bashrc
+# packages:
+#   - sshpass
+#   - python3-pip
+#   - python3.12-venv
+# runcmd:
+#   - python3 -m venv .venv
+#   - echo 'export PATH="$PATH:/home/alma/.venv/bin"' >> .bashrc
 EOF
   }
 }
@@ -154,7 +156,7 @@ resource "yandex_compute_instance" "work-d" {
     user-data = <<EOF
 #cloud-config
 users:
-  - name: ubuntu
+  - name: alma
     groups: sudo
     shell: /bin/bash
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
@@ -162,13 +164,13 @@ users:
       - "${var.remoute_ssh_pub}"
 package_update: true
 package_upgrade: false
-packages:
-  - sshpass
-  - python3-pip
-  - python3.12-venv
-runcmd:
-  - python3 -m venv .venv
-  - echo 'export PATH="$PATH:/home/ubuntu/.venv/bin"' >> .bashrc
+# packages:
+#   - sshpass
+#   - python3-pip
+#   - python3.12-venv
+# runcmd:
+#   - python3 -m venv .venv
+#   - echo 'export PATH="$PATH:/home/alma/.venv/bin"' >> .bashrc
 EOF
   }
 }

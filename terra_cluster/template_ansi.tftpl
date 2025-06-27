@@ -1,46 +1,56 @@
-[all]
+all:
+  hosts:
 
 %{~ for i in control ~}
-${i["name"]} ansible_host=${i["network_interface"][0]["ip_address"]} ip=${i["network_interface"][0]["ip_address"]} ansible_user=ubuntu
+    ${i["name"]}:
+      ansible_host: ${i["network_interface"][0]["nat_ip_address"]}
+      ip: ${i["network_interface"][0]["ip_address"]}
+      access_ip: ${i["network_interface"][0]["ip_address"]}
 
 %{~ endfor ~}
+%{~ for i in work-b ~}
+    ${i["name"]}:
+      ansible_host: ${i["network_interface"][0]["nat_ip_address"]}
+      ip: ${i["network_interface"][0]["ip_address"]}
+      access_ip: ${i["network_interface"][0]["ip_address"]}
+
+%{~ endfor ~}
+%{~ for i in work-d ~}
+    ${i["name"]}:
+      ansible_host: ${i["network_interface"][0]["nat_ip_address"]}
+      ip: ${i["network_interface"][0]["ip_address"]}
+      access_ip: ${i["network_interface"][0]["ip_address"]}
+
+%{~ endfor ~}
+  children:
+    kube_control_plane:
+      hosts:
+
+%{~ for i in control ~}
+        ${i["name"]}:
+
+%{~ endfor ~}
+    kube_node:
+      hosts:
 
 %{~ for i in work-b ~}
-${i["name"]} ansible_host=${i["network_interface"][0]["ip_address"]} ip=${i["network_interface"][0]["ip_address"]} ansible_user=ubuntu
+        ${i["name"]}:
 
 %{~ endfor ~}
-
 %{~ for i in work-d ~}
-${i["name"]} ansible_host=${i["network_interface"][0]["ip_address"]} ip=${i["network_interface"][0]["ip_address"]} ansible_user=ubuntu
+        ${i["name"]}:
 
 %{~ endfor ~}
-
-[kube_control_plane]
+    etcd:
+      hosts:
 
 %{~ for i in control ~}
-${i["name"]}
+        ${i["name"]}:
 
 %{~ endfor ~}
-
-[etcd]
-
-%{~ for i in control ~}
-${i["name"]}
-
-%{~ endfor ~}
-
-[kube_node]
-
-%{~ for i in work-b ~}
-${i["name"]}
-
-%{~ endfor ~}
-
-%{~ for i in work-d ~}
-${i["name"]}
-
-%{~ endfor ~}
-
-[k8s_cluster:children]
-kube_control_plane
-kube_node
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}

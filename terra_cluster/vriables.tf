@@ -59,7 +59,7 @@ variable "resource_nodes" {
     control = {
       count         = 1
       cores         = 2
-      memory        = 2
+      memory        = 4
       core_fraction = 5
       size          = 30
     }
@@ -87,15 +87,15 @@ variable "stop_for_update" {
     work_d  = bool
   })
   default = {
-    control = false
-    work_b  = false
-    work_d  = false
+    control = true
+    work_b  = true
+    work_d  = true
   }
 }
 variable "vm_image" {
   type        = string
-  default     = "fd80j21lmqard15ciskf"
-  description = "image_id"
+  default     = "fd8m058jpob5p3mc3pk8"
+  description = "image_alma9"
 }
 
 #########################control

@@ -6,5 +6,5 @@ resource "local_file" "hosts" {
       work-d  = yandex_compute_instance.work-d
     }
   )
-  filename = "inventory.ini"
+  filename = "hosts.yml"
 }

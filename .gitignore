@@ -4,3 +4,4 @@ key.json
 *.tfstate*
 *terraform.tfvars
 inventory.ini
+hosts.yml
