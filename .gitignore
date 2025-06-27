@@ -1,4 +1,5 @@
 key.json
+keySA.json
 .terraform
 .terraform.lock.hcl
 *.tfstate*

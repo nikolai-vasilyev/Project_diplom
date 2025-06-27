@@ -52,9 +52,7 @@ resource "null_resource" "remote-exec" {
   #   id = timestamp()
   # }
   provisioner "remote-exec" {
-    inline = [
-      "sudo dnf update -y && sudo dnf install git python3.12-pip -y && git clone https://github.com/kubernetes-sigs/kubespray.git && cp -rfp kubespray/inventory/sample kubespray/inventory/mycluster && pip3.12 install -r ~/kubespray/requirements.txt && sudo chmod 600 ~/.ssh/id_ed25519 && echo | tee -a /home/alma/.ssh/id_ed25519"
-    ]
+    script = "script.sh"
     connection {
       type        = "ssh"
       user        = "alma"
