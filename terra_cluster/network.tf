@@ -45,8 +45,8 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-web" {
   name = "lb-${local.network}-web"
 
   listener {
-    name = "listener-web-servers"
-    port = 80
+    name        = "listener-web-servers"
+    port        = 80
     target_port = 30007
     external_address_spec {
       ip_version = "ipv4"
@@ -68,8 +68,8 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
   name = "lb-${local.network}-prometheus"
 
   listener {
-    name = "listener-web-servers"
-    port = 80
+    name        = "listener-web-servers"
+    port        = 80
     target_port = 31768
     external_address_spec {
       ip_version = "ipv4"
