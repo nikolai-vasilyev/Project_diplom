@@ -40,7 +40,7 @@ resource "yandex_vpc_gateway" "gateway" {
   shared_egress_gateway {}
 }
 
-#NLB
+##################################################NLB
 resource "yandex_lb_network_load_balancer" "lb-cluster-web" {
   name = "lb-${local.network}-web"
 
@@ -66,6 +66,7 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-web" {
 }
 resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
   name = "lb-${local.network}-prometheus"
+  depends_on = [ yandex_lb_network_load_balancer.lb-cluster-web ]
 
   listener {
     name        = "listener-web-servers"
@@ -89,6 +90,7 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
 }
 resource "yandex_lb_target_group" "cluster" {
   name = "${local.network}-target-group"
+  depends_on = [ yandex_lb_network_load_balancer.lb-cluster-monitoring ]
 
   dynamic "target" {
     for_each = yandex_compute_instance.control
