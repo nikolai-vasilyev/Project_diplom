@@ -34,22 +34,6 @@ users:
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
     ssh_authorized_keys:
       - "${var.remoute_ssh_pub}"
-package_update: true
-package_upgrade: false
-# packages:
-#   - git
-#   - net-tools
-#   - sshpass
-#   - python3-pip
-#   - python3-venv
-# runcmd:
-#   - sudo timedatectl set-timezone Europe/Moscow
-#   - python3 -m venv .venv
-#   - echo 'export PATH="$PATH:/home/alma/.venv/bin"' >> .bashrc
-#   - mkdir .kube
-#   - git clone https://github.com/kubernetes-sigs/kubespray.git
-#   - cp -rfp kubespray/inventory/sample kubespray/inventory/mycluster
-#   - source ~/.venv/bin/activate && pip install -r ~/kubespray/requirements.txt
 EOF
   }
   provisioner "file" {
@@ -67,10 +51,9 @@ resource "null_resource" "remote-exec" {
   # triggers = {
   #   id = timestamp()
   # }
-  depends_on = [yandex_compute_instance.control]
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod 600 ~/.ssh/id_ed25519 && echo | tee -a /home/alma/.ssh/id_ed25519"
+      "sudo dnf update -y && sudo dnf install git python3.12-pip -y && git clone https://github.com/kubernetes-sigs/kubespray.git && cp -rfp kubespray/inventory/sample kubespray/inventory/mycluster && pip3.12 install -r ~/kubespray/requirements.txt && sudo chmod 600 ~/.ssh/id_ed25519 && echo | tee -a /home/alma/.ssh/id_ed25519"
     ]
     connection {
       type        = "ssh"
@@ -79,6 +62,7 @@ resource "null_resource" "remote-exec" {
       private_key = var.remoute_ssh_priv
     }
   }
+  depends_on = [yandex_compute_instance.control]
 }
 
 ####################################work
@@ -116,15 +100,6 @@ users:
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
     ssh_authorized_keys:
       - "${var.remoute_ssh_pub}"
-package_update: true
-package_upgrade: false
-# packages:
-#   - sshpass
-#   - python3-pip
-#   - python3.12-venv
-# runcmd:
-#   - python3 -m venv .venv
-#   - echo 'export PATH="$PATH:/home/alma/.venv/bin"' >> .bashrc
 EOF
   }
 }
@@ -162,15 +137,6 @@ users:
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
     ssh_authorized_keys:
       - "${var.remoute_ssh_pub}"
-package_update: true
-package_upgrade: false
-# packages:
-#   - sshpass
-#   - python3-pip
-#   - python3.12-venv
-# runcmd:
-#   - python3 -m venv .venv
-#   - echo 'export PATH="$PATH:/home/alma/.venv/bin"' >> .bashrc
 EOF
   }
 }
