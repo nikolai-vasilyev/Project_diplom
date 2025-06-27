@@ -1,5 +1,6 @@
 #!/bin/bash
 sudo chmod 777 /dev/null
+
 sudo dnf update -y > /dev/null &
 wait
 sudo dnf install nano git python3.12-pip -y > /dev/null &
