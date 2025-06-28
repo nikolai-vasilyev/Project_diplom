@@ -43,7 +43,7 @@ resource "yandex_vpc_gateway" "gateway" {
 ######################################################NLB
 resource "yandex_lb_network_load_balancer" "lb-cluster-web" {
   name       = "lb-${local.network}-web"
-  depends_on = [yandex_compute_instance.control, yandex_compute_instance.work-b, yandex_compute_instance.work-d, yandex_lb_network_load_balancer.lb-cluster-monitoring]
+  depends_on = [yandex_lb_network_load_balancer.lb-cluster-monitoring]
   listener {
     name        = "listener-web-servers"
     port        = 80
@@ -70,7 +70,7 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
   listener {
     name        = "listener-web-servers"
     port        = 80
-    target_port = 31768
+    target_port = 30010
     external_address_spec {
       ip_version = "ipv4"
     }
@@ -82,7 +82,7 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
     healthcheck {
       name = "prometheus"
       tcp_options {
-        port = 31768
+        port = 30000
       }
     }
   }

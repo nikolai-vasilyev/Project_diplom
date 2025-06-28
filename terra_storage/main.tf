@@ -1,16 +1,3 @@
-#key
-resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
-  service_account_id = var.user_id
-  description        = "static access key for object storage"
-  provisioner "local-exec" {
-    command = "echo $secret_key > ../terra_cluster/secret.terraform.tfvars"
-    environment = {
-      secret_key = "secret_key = \"${yandex_iam_service_account_static_access_key.sa-static-key.secret_key}\""
-    }
-  }
-}
-
-
 resource "yandex_kms_symmetric_key" "key-os" {
   name                = var.key_name
   description         = "encrypt object storage"
@@ -19,8 +6,8 @@ resource "yandex_kms_symmetric_key" "key-os" {
 }
 #storage
 resource "yandex_storage_bucket" "sb" {
-  access_key            = yandex_iam_service_account_static_access_key.sa-static-key.access_key
-  secret_key            = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
+  access_key            = var.access_key
+  secret_key            = var.secret_key
   bucket                = var.storage_name
   force_destroy = true
   server_side_encryption_configuration {
@@ -31,14 +18,6 @@ resource "yandex_storage_bucket" "sb" {
       }
     }
   }
-  provisioner "local-exec" {
-    command = "echo $access_key >> ../terra_cluster/secret.terraform.tfvars"
-    environment = {
-      access_key = "access_key = \"${yandex_iam_service_account_static_access_key.sa-static-key.access_key}\""
-    }
-  }
-}
-resource "null_resource" "backend-name" {
   provisioner "local-exec" {
     command = "echo $bucket >> ../terra_cluster/secret.terraform.tfvars"
     environment = {

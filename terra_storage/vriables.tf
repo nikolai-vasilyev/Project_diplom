@@ -19,6 +19,16 @@ variable "user_id" {
   sensitive   = true
   description = "VARIABLE USER ID terra_account"
 }
+variable "secret_key" {
+  type        = string
+  sensitive   = true
+  description = "VARIABLE secret key terra_account"
+}
+variable "access_key" {
+  type        = string
+  sensitive   = true
+  description = "VARIABLE access key terra_account"
+}
 ##key vars
 variable "key_name" {
   type        = string
