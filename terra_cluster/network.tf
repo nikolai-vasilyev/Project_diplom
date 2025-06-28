@@ -70,7 +70,7 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
   listener {
     name        = "listener-web-servers"
     port        = 80
-    target_port = 30010
+    target_port = 32459
     external_address_spec {
       ip_version = "ipv4"
     }
@@ -82,7 +82,7 @@ resource "yandex_lb_network_load_balancer" "lb-cluster-monitoring" {
     healthcheck {
       name = "prometheus"
       tcp_options {
-        port = 30000
+        port = 32459
       }
     }
   }
