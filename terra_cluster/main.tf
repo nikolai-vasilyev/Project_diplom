@@ -98,6 +98,8 @@ users:
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
     ssh_authorized_keys:
       - "${var.remoute_ssh_pub}"
+runcmd:
+  - sudo timedatectl set-timezone Europe/Moscow
 EOF
   }
 }
@@ -135,6 +137,8 @@ users:
     sudo: 'ALL=(ALL) NOPASSWD:ALL'
     ssh_authorized_keys:
       - "${var.remoute_ssh_pub}"
+runcmd:
+  - sudo timedatectl set-timezone Europe/Moscow
 EOF
   }
 }
